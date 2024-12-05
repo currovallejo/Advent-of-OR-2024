@@ -48,7 +48,7 @@ for c in model.classes:
     for t in model.teachers:
         for r in model.rooms:
             model.cons.add(
-                sum(model.x[c, t, r, p] for p in model.periods) == f[c][t][r]
+                sum(model.x[c, t, r, p] for p in model.periods) == f[r][c][t]
             )
 
 for t in model.teachers:
@@ -87,7 +87,7 @@ for c in model.classes:
                 if pyo.value(model.x[c, t, r, p]) > 0.5:
                     day = p // 6
                     period = p % 6
-                    schedule[c][period][day] = f"T{t}"
+                    schedule[c][period][day] = f"| T{t} - R{r} |"
 
 for c in model.classes:
     print(f"Class {c} schedule:")
