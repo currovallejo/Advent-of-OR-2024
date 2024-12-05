@@ -29,11 +29,12 @@ Refering to the model below:
 1. Comply with how often each class-teacher combination needs to meet in specific rooms
 2. Only one teacher assigned to one room and class each period
 3. Only one class assigned to one teacher and room each period
-4. Decision variable nature
+4. Only one room assigned to one teacher and class each period
+5. Decision variable nature
 
 ## Optimization method: Mathematical Model (MILP) 
 
 - Modelled in Pyomo model
 - Solved with GLPK
 
-![alt text](image.png)
+![alt text](image-1.png)

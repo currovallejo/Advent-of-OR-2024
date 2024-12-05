@@ -63,13 +63,22 @@ for c in model.classes:
             sum(model.x[c, t, r, p] for t in model.teachers for r in model.rooms) <= 1
         )
 
+for r in model.rooms:
+    for p in model.periods:
+        model.cons.add(
+            sum(model.x[c, t, r, p] for c in model.classes for t in model.teachers) <= 1
+        )
+
 # Solve model
 print("model built\n solving model...")
 solver = pyo.SolverFactory("glpk")
 solver.solve(model, tee=True)
-print('Objective function value (total number of classes scheduled):', pyo.value(model.obj))
+print(
+    "Objective function value (total number of classes scheduled):",
+    pyo.value(model.obj),
+)
 # Print results
-schedule = {c: [['' for _ in range(5)] for _ in range(6)] for c in model.classes}
+schedule = {c: [["" for _ in range(5)] for _ in range(6)] for c in model.classes}
 
 for c in model.classes:
     for t in model.teachers:
@@ -78,11 +87,10 @@ for c in model.classes:
                 if pyo.value(model.x[c, t, r, p]) > 0.5:
                     day = p // 6
                     period = p % 6
-                    schedule[c][period][day] = f'T{t}'
+                    schedule[c][period][day] = f"T{t}"
 
 for c in model.classes:
     print(f"Class {c} schedule:")
     for row in schedule[c]:
-        print(' '.join(row))
+        print(" ".join(row))
     print()
-
